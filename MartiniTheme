@@ -1,61 +1,88 @@
-{% schema %}
-{
-  "name": "Martini Lounge Theme",
-  "settings": [
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#2c2c2c"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent Color",
-      "default": "#cda34f"
-    },
-    {
-      "type": "font_picker",
-      "id": "heading_font",
-      "label": "Heading Font",
-      "default": "baskerville"
-    }
-  ]
-}
-{% endschema %}
+├── theme
+│   ├── assets
+│   │   ├── styles.css
+│   ├── config
+│   │   ├── settings_schema.json
+│   ├── layout
+│   │   ├── theme.liquid
+│   ├── sections
+│   │   ├── header.liquid
+│   │   ├── footer.liquid
+│   ├── templates
+│   │   ├── index.liquid
 
-<style>
-  body {
-    background-color: {{ settings.background_color }};
+// theme.liquid
+{% layout %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ shop.name }}</title>
+    <link rel="stylesheet" href="{{ 'styles.css' | asset_url }}">
+</head>
+<body>
+    {% section 'header' %}
+    <main>
+        {{ content_for_layout }}
+    </main>
+    {% section 'footer' %}
+</body>
+</html>
+
+// settings_schema.json
+[
+  {
+    "name": "Martini Lounge Theme",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#2c2c2c"
+      },
+      {
+        "type": "color",
+        "id": "accent_color",
+        "label": "Accent Color",
+        "default": "#cda34f"
+      },
+      {
+        "type": "font_picker",
+        "id": "heading_font",
+        "label": "Heading Font",
+        "default": "baskerville"
+      }
+    ]
+  }
+]
+
+// styles.css
+body {
+    background-color: var(--background_color);
     color: #f8f8f8;
     font-family: "Baskerville", serif;
-  }
+}
 
-  .header {
-    background-color: {{ settings.accent_color }};
+.header {
+    background-color: var(--accent_color);
     padding: 20px;
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-  }
+}
 
-  .product-card {
+.product-card {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(205, 163, 79, 0.5);
     transition: transform 0.3s ease;
-  }
+}
 
-  .product-card:hover {
+.product-card:hover {
     transform: scale(1.05);
-  }
-</style>
+}
 
-<header class="header">
-  Welcome to the Martini Lounge
-</header>
-
+// index.liquid
 <section class="products">
   {% for product in collections.frontpage.products %}
     <div class="product-card">
@@ -65,3 +92,14 @@
     </div>
   {% endfor %}
 </section>
+
+// header.liquid
+<header class="header">
+  Welcome to the Martini Lounge
+</header>
+
+// footer.liquid
+<footer>
+  <p>© {{ 'now' | date: "%Y" }} {{ shop.name }}. All rights reserved.</p>
+</footer>
+
