@@ -10,14 +10,16 @@
 │   │   ├── footer.liquid
 │   ├── templates
 │   │   ├── index.liquid
+│   │   ├── product.liquid
+│   │   ├── collection.liquid
 
 // theme.liquid
-{% layout %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>{{ shop.name }}</title>
     <link rel="stylesheet" href="{{ 'styles.css' | asset_url }}">
+    {{ content_for_header }}
 </head>
 <body>
     {% section 'header' %}
@@ -57,13 +59,13 @@
 
 // styles.css
 body {
-    background-color: var(--background_color);
+    background-color: {{ settings.background_color }};
     color: #f8f8f8;
-    font-family: "Baskerville", serif;
+    font-family: {{ settings.heading_font.family }}, serif;
 }
 
 .header {
-    background-color: var(--accent_color);
+    background-color: {{ settings.accent_color }};
     padding: 20px;
     text-align: center;
     font-size: 24px;
@@ -93,12 +95,36 @@ body {
   {% endfor %}
 </section>
 
+// product.liquid
+<section class="product-detail">
+  <h1>{{ product.title }}</h1>
+  <p>{{ product.description }}</p>
+  <p>{{ product.price | money }}</p>
+  <button>Add to Cart</button>
+</section>
+
+// collection.liquid
+<section class="collection-list">
+  <h1>{{ collection.title }}</h1>
+  {% for product in collection.products %}
+    <div class="product-card">
+      <h2>{{ product.title }}</h2>
+      <p>{{ product.price | money }}</p>
+      <a href="{{ product.url }}">View</a>
+    </div>
+  {% endfor %}
+</section>
+
 // header.liquid
 <header class="header">
   Welcome to the Martini Lounge
 </header>
 
 // footer.liquid
+<footer>
+  <p>© {{ 'now' | date: "%Y" }} {{ shop.name }}. All rights reserved.</p>
+</footer>
+
 <footer>
   <p>© {{ 'now' | date: "%Y" }} {{ shop.name }}. All rights reserved.</p>
 </footer>
