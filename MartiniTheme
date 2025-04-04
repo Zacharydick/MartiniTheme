@@ -125,7 +125,4 @@ body {
   <p>© {{ 'now' | date: "%Y" }} {{ shop.name }}. All rights reserved.</p>
 </footer>
 
-<footer>
-  <p>© {{ 'now' | date: "%Y" }} {{ shop.name }}. All rights reserved.</p>
-</footer>
 
